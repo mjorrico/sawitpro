@@ -5,7 +5,7 @@ import sys
 import os
 
 if len(sys.argv)%2 == 0:
-    raise SyntaxError("Invalid program call. Valid call: `python3 count.py --modelpath to/sawit/model.pt --imagepath to/your/image.jpg --target-tile-size 1280 --output sawit-detection.jpg`")
+    raise SyntaxError("Invalid program call. Valid call: `python3 count.py --modelpath models/sawitlover.pt --imagepath to/your/image.jpg --target-tile-size 1280 --output sawit-detection.jpg --output sawit-detected.jpg`")
 
 IMAGEPATH = None
 MODELPATH = None

@@ -6,10 +6,15 @@ Palm tree aerial detection and apple classification all done using YOLO 11. Palm
 
 
 ## Usage
+1. Clone repository
+
+    ```bash
+    $ git clone https://github.com/mjorrico/sawitpro.git
+    ```
 1. Konfigurasi environment
 
     ```bash
-    pip install -r requirements.txt
+    $ pip install -r requirements.txt
     ```
 
 2. Inference
@@ -17,7 +22,7 @@ Palm tree aerial detection and apple classification all done using YOLO 11. Palm
     - Untuk palm detection problem
 
         ```bash
-        python3 count.py --modelpath to/sawit/model.pt --imagepath to/your/image.jpg --target-tile-size 2048
+        $ python3 count.py --modelpath models/sawitlover.pt --imagepath to/your/image.jpg --target-tile-size 2048 --output sawit-detected.jpg
         ```
 
         Flag `--modelpath` dan `--imagepath` wajib. Flag `--target-tile-size` opsional dijelaskan [disini](#tiling).
@@ -25,7 +30,7 @@ Palm tree aerial detection and apple classification all done using YOLO 11. Palm
     - Untuk apple classification problem
 
         ```
-        python3 (TODO)
+        $ python3 (TODO)
         ```
 
     Output by default ada di `output.jpg`.
