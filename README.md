@@ -1,4 +1,9 @@
-# Deteksi Sawit Aerial View
+# SawitPRO Technical Round
+
+By: Jordan Enrico
+
+Palm tree aerial detection and apple classification all done using YOLO 11. Palm tree detection requires finetuning. Apple classification doesn't require fine-tuning but involves segmentation with classical CV methods.
+
 
 ## Usage
 1. Konfigurasi environment
@@ -29,7 +34,7 @@
 
 Dari [figure ini](figures/labels.jpg), rata-rata tinggi detector box sawit dari train set adalah ~9.5% tinggi input image (~7.5% untuk lebarnya). Model akan gagal untuk prediksi [gambar assignment ini](https://storage.googleapis.com/648010c1-f244-4641-98f2-73ff6c1b4e99/ai_assignment_20241202_count.jpeg) karena:
 
-1. Ukuran sawit terlalu kecil (~4.5% input width). Kamera drone/satelit terlalu zoomed out.
+1. Ukuran sawit terlalu kecil (~4.5% input width). Kamera drone/satelit terlalu zoomed out. YOLO lemah deteksi objek kecil.
 2. Terlalu banyak sawit dalam satu frame.
     
 Maka itu, gambar besar perlu di-_tiling_. Pakai flag `--target-tile-size` untuk set ukuran lebar _tile_-nya. Sederhananya, ukur lebar sebuah pohon sawit pakai [tool ini](https://www.rapidtables.com/web/tools/pixel-ruler.html) lalu bagi ~9.5%.
