@@ -2,38 +2,42 @@
 
 By: Jordan Enrico
 
-Palm tree aerial detection and apple classification all done using YOLO 11. Palm tree detection requires finetuning. Apple classification doesn't require fine-tuning but involves segmentation with classical CV methods.
+Aerial palm tree detection and apple classification all done using YOLO 11. Palm tree detection requires finetuning. Apple classification doesn't require fine-tuning but involves segmentation followed by classical CV methods.
 
 
 ## Usage
-1. Clone repository
+1. Clone repository ([repo page](https://github.com/mjorrico/sawitpro))
 
     ```bash
     $ git clone https://github.com/mjorrico/sawitpro.git
     ```
-1. Konfigurasi environment
+2. Konfigurasi environment
 
     ```bash
     $ pip install -r requirements.txt
     ```
 
-2. Inference
+3. Inference
 
     - Untuk palm detection problem
 
         ```bash
-        $ python3 count.py --modelpath models/sawitlover.pt --imagepath to/your/image.jpg --target-tile-size 2048 --output sawit-detected.jpg
+        $ python3 count.py --model models/count.pt --image to/your/image.jpg --target-tile-size 2048 --output sawit-detected.jpg
         ```
 
-        Flag `--modelpath` dan `--imagepath` wajib. Flag `--target-tile-size` opsional dijelaskan [disini](#tiling).
+        Options `--model` dan `--image` wajib. Option `--target-tile-size` opsional dijelaskan [disini](#tiling). Useful untuk image yang sawitnya banyak dan/atau kecil. Option `--output` juga opsional. Untuk show help, jalankan:
+
+        ```bash
+        $ python3 count.py --help
+        ```
 
     - Untuk apple classification problem
 
-        ```
-        $ python3 (TODO)
+        ```bash
+        $ python3 classify.py (TODO)
         ```
 
-    Output by default ada di `output.jpg`.
+    **Note:** Output by default ada di `output.jpg` atau `output-X.jpg` untuk klasifikasi.
 
 ### Tiling
 
@@ -42,7 +46,7 @@ Dari [figure ini](figures/labels.jpg), rata-rata tinggi detector box sawit dari 
 1. Ukuran sawit terlalu kecil (~4.5% input width). Kamera drone/satelit terlalu zoomed out. YOLO lemah deteksi objek kecil.
 2. Terlalu banyak sawit dalam satu frame.
     
-Maka itu, gambar besar perlu di-_tiling_. Pakai flag `--target-tile-size` untuk set ukuran lebar _tile_-nya. Sederhananya, ukur lebar sebuah pohon sawit pakai [tool ini](https://www.rapidtables.com/web/tools/pixel-ruler.html) lalu bagi ~9.5%.
+Maka itu, gambar besar perlu di-_tiling_. Pakai option `--target-tile-size` untuk set ukuran lebar _tile_-nya. Sederhananya, ukur lebar sebuah pohon sawit pakai [tool ini](https://www.rapidtables.com/web/tools/pixel-ruler.html) lalu bagi ~9.5%.
 
 Kelemahannya adalah sawit ditepi tile kadang tidak terdeteksi.
 

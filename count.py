@@ -1,44 +1,33 @@
 from ultralytics import YOLO
 import numpy as np
+import argparse
 import cv2
 import sys
 import os
 
-if len(sys.argv)%2 == 0:
-    raise SyntaxError("Invalid program call. Valid call: `python3 count.py --modelpath models/sawitlover.pt --imagepath to/your/image.jpg --target-tile-size 1280 --output sawit-detection.jpg --output sawit-detected.jpg`")
 
-IMAGEPATH = None
-MODELPATH = None
-OUTPATH = None
-TILING = None
-for i, arg in enumerate(sys.argv):
-    if i%2 == 0:
-        continue
-    if arg == "--imagepath":
-        if not os.path.exists(sys.argv[i + 1]):
-            raise FileNotFoundError(f"File {sys.argv[i + 1]} doesn't exist! Specify aerial sawit image.")
-        IMAGEPATH = sys.argv[i + 1]
-    elif arg == "--target-tile-size":
-        TILING = int(sys.argv[i + 1])
-    elif arg == "--modelpath":
-        if not os.path.exists(sys.argv[i + 1]):
-            raise FileNotFoundError(f"File {sys.argv[i + 1]} doesn't exist! Specify path to sawit model.")
-        MODELPATH = sys.argv[i + 1]
-    elif arg == "--output":
-        OUTPATH = sys.argv[i + 1]
-    else:
-        raise TypeError(f"Flag {arg} does not exist.")
-    
-if MODELPATH is None:
-    raise RuntimeError("Model hasn't been specified.")
-if IMAGEPATH is None:
-    raise RuntimeError("Image han't been specified.")
-if OUTPATH is None:
-    OUTPATH = "output.jpg"
+parser = argparse.ArgumentParser(description="Detect palm tree from aerial imaging. Specify chosen model and input image to detect.")
+parser.add_argument("-q", "--quiet", action="store_true", help="minimize output information in quiet mode.")
+parser.add_argument("-i", "--image", required=True, type=str, help="specify the path to input image.")
+parser.add_argument("-m", "--model", required=True, type=str, help="specify the path to model weights.")
+parser.add_argument("-o", "--output", default="output.jpg", type=str, help="where the output is saved. defaults to output.jpg.")
+parser.add_argument("-t", "--target-tile-size", default=None, type=int, help="tiles the input image target tilesize in pixels. not tiling if this option isn't specified.")
+
+args = parser.parse_args()
+IMAGEPATH = args.image
+MODELPATH = args.model
+OUTPATH = args.output
+TILING = args.target_tile_size
+qprint = lambda text: print(text) if not args.quiet else None
+
+if not os.path.exists(IMAGEPATH):
+    raise FileNotFoundError(f"Image file {IMAGEPATH} doesn't exist!")
+if not os.path.exists(MODELPATH):
+    raise FileNotFoundError(f"Model file {MODELPATH} doesn't exist!")
 
 image = cv2.imread(IMAGEPATH)
 imageH, imageW, _ = np.shape(image)
-print(f"image height: {imageH}, image width: {imageW}")
+qprint(f"Input image height: {imageH}, width: {imageW}")
 if TILING and (imageH > 3084 or imageW > 3084):
     nVert = imageH // TILING + 1
     nHori = imageW // TILING + 1
@@ -51,7 +40,10 @@ if TILING and (imageH > 3084 or imageW > 3084):
             patch_col = j * tileWidth
             patch_list.append(image[patch_row : patch_row + tileHeight, patch_col : patch_col + tileWidth, :])
     image = patch_list
-image = image if isinstance(image, list) else [image]
+    qprint(f"Input image tiled into {nVert} x {nHori} tiles.\nTile size: {tileHeight} x {tileWidth} pixels.")
+else:
+    image = image if isinstance(image, list) else [image]
+    qprint("Input image not tiled.")
 
 model = YOLO(MODELPATH)
 results = model(image, imgsz=640, iou=.6, conf=.35)
@@ -66,7 +58,7 @@ for j, (r, orig_img) in enumerate(zip(results, image)):
         cv2.putText(orig_img, f"{i + last_idx}", [c[0], c[1] - 10], cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 120), 3)
     last_idx += i
 
-    border_width= 8
+    border_width= 8 # SET TO 0 UNTUK HILANGKAN BORDER BEETWEEN TILES
     if len(results) > 1:
         orig_img = cv2.copyMakeBorder(
             orig_img,
@@ -83,4 +75,8 @@ if len(results) > 1:
     image = np.concatenate([np.concatenate(image[i * nHori : (i + 1) * nHori], axis=1) for i in range(nVert)], axis=0)
 else:
     image = image[0]
-cv2.imwrite(OUTPATH, image)
+
+if cv2.imwrite(OUTPATH, image):
+    qprint(f"Image saved into {OUTPATH}")
+else:
+    raise RuntimeError(f"Output image fails to be saved at {OUTPATH}")
