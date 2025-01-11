@@ -58,7 +58,7 @@ Kelemahannya adalah sawit ditepi tile kadang tidak terdeteksi.
 
 ## License and Usage Restrictions
 
-This software is licensed under the **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)** license. See the [LICENSE](license/LICENSE-CC-BY-NC-ND-4.0.md) file for the full text.
+This software is licensed under the **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)** license. See the [LICENSE](LICENSE.md) file for the full text.
 
 ### Purpose of This Software
 This software is strictly created as part of a job application process for the position of **AI Engineer** at SawitPRO. It is intended solely for evaluation by the company as part of their hiring process.
