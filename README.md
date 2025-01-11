@@ -17,6 +17,8 @@ Aerial palm tree detection and apple classification all done using YOLO 11 pre-t
     $ pip install -r requirements.txt
     ```
 
+    **Note:** environment takes 6GB of space and network.
+
 3. Inference
 
     - Untuk palm detection problem
