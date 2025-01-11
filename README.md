@@ -2,11 +2,11 @@
 
 By: Jordan Enrico
 
-Aerial palm tree detection and apple classification all done using YOLO 11. Palm tree detection requires finetuning. Apple classification doesn't require fine-tuning but involves segmentation followed by classical CV methods.
+Aerial palm tree detection and apple classification all done using YOLO 11 pre-trained by Ultralytics. Palm tree detection requires finetuning. Apple classification doesn't require fine-tuning but involves segmentation followed by classical CV methods.
 
 
 ## Usage
-1. Clone repository ([repo page](https://github.com/mjorrico/sawitpro))
+1. Clone repository ([repo page](https://github.com/mjorrico/sawitpro)). Skip kalau sudah.
 
     ```bash
     $ git clone https://github.com/mjorrico/sawitpro.git
@@ -25,7 +25,7 @@ Aerial palm tree detection and apple classification all done using YOLO 11. Palm
         $ python3 count.py --model models/count.pt --image to/your/image.jpg --target-tile-size 2048 --output sawit-detected.jpg
         ```
 
-        Options `--model` dan `--image` wajib. Option `--target-tile-size` opsional dijelaskan [disini](#tiling). Useful untuk image yang sawitnya banyak dan/atau kecil. Option `--output` juga opsional. Untuk show help, jalankan:
+        Options `--model` dan `--image` wajib. Option `--target-tile-size` opsional dijelaskan [disini](#tiling). Useful untuk image yang sawitnya banyak dan/atau kecil. Option `--output` juga opsional. By default, disimpan di `output.jpg`. Untuk show help, jalankan:
 
         ```bash
         $ python3 count.py --help
@@ -34,16 +34,20 @@ Aerial palm tree detection and apple classification all done using YOLO 11. Palm
     - Untuk apple classification problem
 
         ```bash
-        $ python3 classify.py (TODO)
+        $ python3 classify.py --image to/your/image.jpg --output your/output/directory --seg
         ```
 
-    **Note:** Output by default ada di `output.jpg` atau `output-X.jpg` untuk klasifikasi.
+        Option `--image` wajib. Options `--output` dan flag `--seg` opsional. Option `--output` untuk specify **directory** output yang defaultnya di _current directory_. Flag `--seg` untuk output segmentation applenya. Untuk help, jalankan:
+
+        ```bash
+        $ python3 classify.py --help
+        ```
 
 ### Tiling
 
 Dari [figure ini](figures/labels.jpg), rata-rata tinggi detector box sawit dari train set adalah ~9.5% tinggi input image (~7.5% untuk lebarnya). Model akan gagal untuk prediksi [gambar assignment ini](https://storage.googleapis.com/648010c1-f244-4641-98f2-73ff6c1b4e99/ai_assignment_20241202_count.jpeg) karena:
 
-1. Ukuran sawit terlalu kecil (~4.5% input width). Kamera drone/satelit terlalu zoomed out. YOLO lemah deteksi objek kecil.
+1. Ukuran sawit terlalu kecil (~4.5% input width). Kamera drone/satelit terlalu zoomed out. YOLO lemah deteksi objek kecil. Saat resize ke `640px`, information loss.
 2. Terlalu banyak sawit dalam satu frame.
     
 Maka itu, gambar besar perlu di-_tiling_. Pakai option `--target-tile-size` untuk set ukuran lebar _tile_-nya. Sederhananya, ukur lebar sebuah pohon sawit pakai [tool ini](https://www.rapidtables.com/web/tools/pixel-ruler.html) lalu bagi ~9.5%.
