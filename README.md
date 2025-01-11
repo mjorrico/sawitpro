@@ -58,14 +58,18 @@ Kelemahannya adalah sawit ditepi tile kadang tidak terdeteksi.
 
 ## License and Usage Restrictions
 
-This software is licensed under the **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)** license. See the [LICENSE](LICENSE.md) file for the full text.
+This software is licensed under the **GNU Affero General Public License version 3 (AGPL-3.0)**. See the [LICENSE](LICENSE.md) file for the full text.
 
 ### Purpose of This Software
-This software is strictly created as part of a job application process for the position of **AI Engineer** at SawitPRO. It is intended solely for evaluation by the company as part of their hiring process.
+This software was originally created as part of a job application process for the position of **AI Engineer** at SawitPRO. While it was initially intended for evaluation by the company as part of their hiring process, it is now available under the AGPL license, which grants additional freedoms and responsibilities to users.
 
-### Restrictions
-- **Non-Commercial Use**: This software may not be used for any commercial purposes.
-- **No Derivatives**: The company may not modify, adapt, or create derivative works based on this software.
-- **Attribution**: If the company shares or references this software, they must give appropriate credit to the author.
+### Key Features of the AGPL License
+- **Freedom to Use**: This software can be used for any purpose, including commercial use.
+- **Freedom to Modify**: Users are allowed to modify, adapt, and create derivative works based on this software.
+- **Freedom to Share**: Users can distribute the original or modified versions of this software.
+- **Copyleft Requirement**: If you distribute modified versions of this software or use it to provide a service over a network (e.g., as a web application), you must also license your modifications under the AGPL and make the source code available to users. This ensures that the software and its derivatives remain free and open-source.
 
-By accessing or using this software, the company agrees to these terms and conditions. Any use outside the scope of the job application process is strictly prohibited.
+### Attribution
+If you share or modify this software, you must provide appropriate credit to the original author and include a copy of the AGPL license. You must also indicate if changes were made.
+
+By accessing, using, or modifying this software, you agree to comply with the terms and conditions of the AGPL license. This license ensures that the software remains free and open-source, fostering collaboration and innovation while protecting the rights of the original author and the community.
